@@ -38,8 +38,8 @@ makeCacheMatrix <- function(mat = matrix())
   # return list of functions ("methods")
   list(set = set, 
        get = get,
-       setmean = setmean,
-       getmean = getmean)
+       set_inverse = set_inverse,
+       get_inverse = get_inverse)
 }
 
 ## Given a list created with "makeCacheMatrix", calculates the inverse of 
@@ -68,7 +68,7 @@ cacheSolve <- function(cMat, ...)
   # invertible)
   inv <- solve(mat)
   # store the new value in the cache
-  cMat$setmean(inv)
+  cMat$set_inverse(inv)
   
   ## Return the value.
   inv
