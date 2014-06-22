@@ -25,12 +25,12 @@ makeCacheMatrix <- function(mat = matrix())
   }
   
   # set the cached value of the inverse of the matrix
-  setmean <- function(new_inverted) 
+  set_inverse <- function(new_inverted) 
   {
     inv <<- new_inverted
   }
   # get the cached value of the inverse of the matrix
-  getmean <- function() 
+  get_inverse <- function() 
   {
     inv
   }
@@ -48,7 +48,28 @@ makeCacheMatrix <- function(mat = matrix())
 ## cache prepared by "makeCacheMatrix", or - if it was already done for 
 ## list created with "makeCacheMatrix" - ir retrieves the value from 
 ## the cache.
-cacheSolve <- function(x, ...) 
+cacheSolve <- function(cMat, ...) 
 {
-  ## Return a matrix that is the inverse of 'x'
+  # get the cached inverse of the matrix for which 'cMat' was created with
+  # "makeCacheMatrix".
+  inv <- cMat$get_inverse()
+  
+  # if the cache was already stored (not null), return it and finish
+  if(!is.null(inv)) 
+  {
+    message("getting cached data")
+    return(inv)
+  }
+  
+  # otherwise, the value of the inverse must be first calculated, so...
+  # get the  matrix for which 'cMat' was created with "makeCacheMatrix". 
+  mat <- cMat$get()
+  # invert the matrix with R "solve" (and hope, that 'mat' is square and
+  # invertible)
+  inv <- solve(mat)
+  # store the new value in the cache
+  cMat$setmean(inv)
+  
+  ## Return the value.
+  inv
 }
