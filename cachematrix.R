@@ -6,9 +6,40 @@
 ## In fact it returns a list containing functions ("methods") to get,
 ## and set and matrix, for which the cache is stored and to get and set the
 ## value of matrix inversion value to be cached.
-makeCacheMatrix <- function(x = matrix()) 
+makeCacheMatrix <- function(mat = matrix()) 
 {
-
+  # initialize the cached inverse with null locally
+  inv<- NULL
+  
+  # set the matrix, for which we want to cache the inverse 
+  set <- function(y) 
+  {
+    mat <<- y
+    # if setting a new matrix, forget the cached inverse
+    inv <<- NULL
+  }
+  # get the matrix, for which we want to cache the inverse 
+  get <- function() 
+  {
+    mat
+  }
+  
+  # set the cached value of the inverse of the matrix
+  setmean <- function(new_inverted) 
+  {
+    inv <<- new_inverted
+  }
+  # get the cached value of the inverse of the matrix
+  getmean <- function() 
+  {
+    inv
+  }
+  
+  # return list of functions ("methods")
+  list(set = set, 
+       get = get,
+       setmean = setmean,
+       getmean = getmean)
 }
 
 ## Given a list created with "makeCacheMatrix", calculates the inverse of 
